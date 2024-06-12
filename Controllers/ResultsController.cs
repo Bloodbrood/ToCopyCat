@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using DocumentFormat.OpenXml.Packaging; // Importuje knihovnu pro práci s dokumenty OpenXml
 using DocumentFormat.OpenXml.Wordprocessing; // Importuje třídy pro práci s dokumenty Word
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -16,19 +17,29 @@ namespace CopyCat.Controllers
         public async Task<IActionResult> SaveResults([FromBody] ResultsModel model) // Akce SaveResults, která přijímá ResultsModel jako parametr
         {
             var sanitizedQuery = Regex.Replace(model.Query, @"[^\w\s]", "").Replace(" ", "_"); // Sanitizace dotazu odstraněním speciálních znaků a nahrazením mezer podtržítky
-            var downloadsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads"); // Získání cesty k adresáři pro stahování souborů
-            var filePath = Path.Combine(downloadsFolder, $"{sanitizedQuery}.docx"); // Sestavení cesty k výslednému souboru
+            var fileName = $"{sanitizedQuery}.docx"; // Název souboru
+            var downloadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "downloads"); // Cesta ke složce pro stahování souborů
+
+            if (!Directory.Exists(downloadsFolder))
+            {
+                Directory.CreateDirectory(downloadsFolder); // Vytvoří složku pro stahování, pokud ještě neexistuje
+            }
+
+            var filePath = Path.Combine(downloadsFolder, fileName); // Sestavení cesty k výslednému souboru
 
             // Kontrola, zda soubor již existuje, a případné přejmenování, aby nedošlo k přepsání existujícího souboru
             int fileCount = 1;
             while (System.IO.File.Exists(filePath))
             {
-                filePath = Path.Combine(downloadsFolder, $"{sanitizedQuery}({fileCount}).docx");
+                fileName = $"{sanitizedQuery}({fileCount}).docx";
+                filePath = Path.Combine(downloadsFolder, fileName);
                 fileCount++;
             }
 
             await SaveResultsToWordFile(model.Results, filePath); // Asynchronní uložení výsledků do souboru ve formátu Word
-            return Json(new { message = "Results saved", filePath }); // Vrácení JSON odpovědi s informací o úspěšném uložení výsledků
+            var relativePath = Path.Combine("downloads", fileName).Replace("\\", "/"); // Relativní cesta k souboru
+
+            return Json(new { message = "Results saved", filePath = relativePath }); // Vrácení JSON odpovědi s informací o úspěšném uložení výsledků
         }
 
         // Metoda pro asynchronní uložení výsledků do souboru ve formátu Word
@@ -52,4 +63,7 @@ namespace CopyCat.Controllers
                 mainPart.Document.Save(); // Uložení dokumentu
             }
 
-            await Task.CompletedTask; // Ukončení as
+            await Task.CompletedTask; // Ukončení asynchronní úlohy
+        }
+    }
+}
