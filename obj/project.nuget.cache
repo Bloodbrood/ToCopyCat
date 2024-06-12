@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "7LtUkEkdVWe0zW5P1GKJMZIAE2jyt+KMqi7uO1TVC7DSho+qRhjh+ZdBAsx+zfzTIJ8cCOyEqcQkW/lPSoHNyg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Tallon\\Dropbox\\Csharp\\CopyCat\\CopyCat.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Tallon\\.nuget\\packages\\documentformat.openxml\\3.0.2\\documentformat.openxml.3.0.2.nupkg.sha512",
+    "C:\\Users\\Tallon\\.nuget\\packages\\documentformat.openxml.framework\\3.0.2\\documentformat.openxml.framework.3.0.2.nupkg.sha512",
+    "C:\\Users\\Tallon\\.nuget\\packages\\htmlagilitypack\\1.11.61\\htmlagilitypack.1.11.61.nupkg.sha512",
+    "C:\\Users\\Tallon\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\Tallon\\.nuget\\packages\\system.io.packaging\\8.0.0\\system.io.packaging.8.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

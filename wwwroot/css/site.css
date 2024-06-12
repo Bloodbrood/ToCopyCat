@@ -1,0 +1,39 @@
+
+.navbar {
+    border: 1px solid #ced4da;  
+    background-color: #007bff;   
+    margin-bottom: 20px;  
+}
+
+
+img {
+    width: 66%;
+    border-radius: 50%;  
+    display: block;  
+    margin: 10px auto;  
+}
+
+  
+.btn-primary {
+    display: block;
+    width: fit-content;
+    margin: 10px auto;
+}
+
+ 
+h4 {
+    font-size: 2rem;  
+}
+
+
+.footer {
+    flex-shrink: 0;
+    background-color: #f8f9fa;  
+    padding: 20px 0;  
+    border-top: none;  
+}
+
+ 
+#saveresultsbutton {
+    display: none;
+}

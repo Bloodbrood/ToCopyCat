@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Vyhledávač";
+}
+
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <!-- Vytvoření řádku a zarovnání na střed -->
+        <div class="col-md-6">
+            <!-- Šířka sloupce na střed -->
+            <h1 class="text-center">Vyhledávač</h1> <!-- Nadpis vyhledávače -->
+
+            <form id="searchForm" class="mt-4">
+                <div class="form-group">
+                    <h3 for="searchQuery">Vyhledávání:</h3> <!-- Nadpis třetí úrovně pro vyhledávání -->
+                    <input type="text" class="form-control" id="searchQuery" placeholder="Zadejte slovní spojení">
+                </div>
+                <button type="submit" class="btn btn-primary">Vyhledat</button>
+            </form>
+
+            <div id="results" class="mt-4"></div>
+
+            <button id="saveResultsButton" class="btn btn-success mt-4" style="display:none;">Uložit</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/search.js"></script>
+    <script src="~/js/saveResults.js"></script>
+}
