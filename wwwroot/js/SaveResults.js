@@ -1,36 +1,36 @@
-// Èeká na událost "DOMContentLoaded", co znamená, e skript bude spuštìn, a budou naèteny všechny prvky HTML stránky.
+// ÄŒekÃ¡ na udÃ¡lost "DOMContentLoaded", coÅ¾ znamenÃ¡, Å¾e skript bude spuÅ¡tÄ›n, aÅ¾ budou naÄteny vÅ¡echny prvky HTML strÃ¡nky.
 document.addEventListener("DOMContentLoaded", function () {
-    // Vypíše v konzoli, e byl naèten skript "saveResults.js" - lze pouít pro ladìní a ovìøení, e skript byl úspìšnì naèten.
     console.log('saveResults.js loaded'); // Debugging line
 
-    // Pøidá posluchaèe události kliknutí na tlaèítko s id "saveResultsButton".
+    // PÅ™idÃ¡ posluchaÄe udÃ¡losti kliknutÃ­ na tlaÄÃ­tko s id "saveResultsButton".
     document.getElementById('saveResultsButton').addEventListener('click', saveResults);
 });
 
-// Funkce pro uloení vısledkù.
+// Funkce pro uloÅ¾enÃ­ vÃ½sledkÅ¯.
 function saveResults() {
-    // Inicializuje prázdné pole pro uloení vısledkù.
-    const results = [];
-    // Prochází všechny prvky <p> s id "results" a pro kadı z nich pøidá text do pole results.
+    const results = []; // Inicializuje prÃ¡zdnÃ© pole pro uloÅ¾enÃ­ vÃ½sledkÅ¯.
     document.querySelectorAll('#results p').forEach(p => {
-        results.push(p.textContent);
+        results.push(p.textContent); // ProchÃ¡zÃ­ vÅ¡echny prvky <p> s id "results" a pro kaÅ¾dÃ½ z nich pÅ™idÃ¡ text do pole results.
     });
 
-    // Získá hodnotu atributu "data-query" z tlaèítka s id "saveResultsButton", která obsahuje dotaz.
-    const query = document.getElementById('saveResultsButton').dataset.query;
+    const query = document.getElementById('saveResultsButton').dataset.query; // ZÃ­skÃ¡ hodnotu atributu "data-query" z tlaÄÃ­tka s id "saveResultsButton", kterÃ¡ obsahuje dotaz.
 
-    // Posílá asynchronní HTTP POST poadavek na server, aby uloil vısledky.
-    fetch('/Results/SaveResults', { // Zmìnìno na /Results/SaveResults
-        method: 'POST', // Metoda poadavku
+    fetch('/Results/SaveResults', { // PosÃ­lÃ¡ asynchronnÃ­ HTTP POST poÅ¾adavek na server, aby uloÅ¾il vÃ½sledky.
+        method: 'POST', // Metoda poÅ¾adavku
         headers: {
-            'Content-Type': 'application/json', // Hlavièka s typem obsahu (JSON)
+            'Content-Type': 'application/json', // HlaviÄka s typem obsahu (JSON)
         },
-        body: JSON.stringify({ results: results, query: query }), // Tìlo poadavku ve formátu JSON
-    }).then(response => response.json()) // Zpracuje odpovìï serveru jako JSON
+        body: JSON.stringify({ results: results, query: query }), // TÄ›lo poÅ¾adavku ve formÃ¡tu JSON
+    }).then(response => response.json()) // Zpracuje odpovÄ›Ä serveru jako JSON
         .then(data => {
-            // Zaloguje úspìšné uloení vısledkù a zobrazí uivateli vıslednou cestu k uloenému souboru.
-            console.log('Results saved:', data);
+            console.log('Results saved:', data); // Zaloguje ÃºspÄ›Å¡nÃ© uloÅ¾enÃ­ vÃ½sledkÅ¯ a zobrazÃ­ uÅ¾ivateli vÃ½slednou cestu k uloÅ¾enÃ©mu souboru.
             alert(`Results saved to: ${data.filePath}`);
+
+            const downloadLink = document.createElement('a'); // VytvoÅ™Ã­ prvek <a> pro staÅ¾enÃ­ souboru.
+            downloadLink.href = data.filePath; // NastavÃ­ odkaz na uloÅ¾enÃ½ soubor.
+            downloadLink.innerText = 'Download results'; // NastavÃ­ text odkazu.
+            downloadLink.download = `${query}.docx`; // NastavÃ­ nÃ¡zev souboru ke staÅ¾enÃ­.
+            document.body.appendChild(downloadLink); // PÅ™idÃ¡ odkaz na strÃ¡nku.
         })
-        .catch(error => console.error('Error:', error)); // Zpracuje chybu, pokud dojde k chybì pøi komunikaci se serverem.
+        .catch(error => console.error('Error:', error)); // Zpracuje chybu, pokud dojde k chybÄ› pÅ™i komunikaci se serverem.
 }
